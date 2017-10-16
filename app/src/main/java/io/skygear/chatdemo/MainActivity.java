@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import io.skygear.skygear.Container;
+import io.skygear.skygear.Record;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,9 +27,19 @@ public class MainActivity extends AppCompatActivity {
         mLogInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplication(), LoginActivity.class));
+                startActivity(new Intent(getBaseContext(), LoginActivity.class));
             }
         });
 
+        mSkygear = Container.defaultContainer(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Record currentUser = mSkygear.getAuth().getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(this, UsersListActivity.class));
+        }
     }
 }
