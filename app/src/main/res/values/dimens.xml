@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="title_text_size">16sp</dimen>
+    <dimen name="body_text_size">14sp</dimen>
+</resources>
