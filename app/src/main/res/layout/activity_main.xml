@@ -21,13 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/sign_up_btn"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_up"
-            style="?android:attr/borderlessButtonStyle"/>
+        <!--<Button-->
+            <!--android:id="@+id/sign_up_btn"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/sign_up"-->
+            <!--style="?android:attr/borderlessButtonStyle"/>-->
         <Button
             android:id="@+id/log_in_btn"
             android:layout_width="0dp"
