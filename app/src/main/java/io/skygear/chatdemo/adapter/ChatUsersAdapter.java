@@ -1,5 +1,8 @@
 package io.skygear.chatdemo.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.skygear.chatdemo.LoginActivity;
 import io.skygear.chatdemo.R;
 import io.skygear.plugins.chat.ChatUser;
 
@@ -20,8 +24,11 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
 
     List<ChatUser> mChatUserList = new ArrayList<ChatUser>();
     String mCurrentUserId;
+    ArrayList<ChatUser> mSelectedChatUsers = new ArrayList<ChatUser>();
+    Context context;
 
-    public ChatUsersAdapter(String mCurrentUserId) {
+    public ChatUsersAdapter(Context context, String mCurrentUserId) {
+        this.context = context;
         this.mCurrentUserId = mCurrentUserId;
     }
 
@@ -33,6 +40,10 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
             }
         }
         notifyDataSetChanged();
+    }
+
+    public ArrayList<ChatUser> getSelectedChatUsers() {
+        return mSelectedChatUsers;
     }
 
     @Override
@@ -48,7 +59,7 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
 
     @Override
     public void onBindViewHolder(ChatUsersAdapter.ViewHolder holder, int position) {
-        ChatUser chatUser = mChatUserList.get(position);
+        final ChatUser chatUser = mChatUserList.get(position);
         String userLabelText = chatUser.getId();
         if (chatUser.getRecord().get("name") != null && chatUser.getRecord().get("name") instanceof String) {
             userLabelText = (String) chatUser.getRecord().get("name");
@@ -56,6 +67,19 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
             userLabelText = (String) chatUser.getRecord().get("username");
         }
         holder.textView.setText(userLabelText);
+
+        holder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mSelectedChatUsers.indexOf(chatUser) == -1) {
+                    mSelectedChatUsers.add(chatUser);
+                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.gray_light));
+                } else {
+                    mSelectedChatUsers.remove(chatUser);
+                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
+                }
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

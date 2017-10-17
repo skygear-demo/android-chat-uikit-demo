@@ -21,6 +21,9 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".UsersListActivity"></activity>
+
+        <activity
+            android:name="io.skygear.plugins.chat.ui.ConversationActivity" />
     </application>
 
 </manifest>
