@@ -20,10 +20,13 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".UsersListActivity"></activity>
-
         <activity
+            android:label="@string/activity_users_list_title"
+            android:name=".UsersListActivity"/>
+        <activity
+            android:label="@string/activity_conversations_list_title"
             android:name="io.skygear.plugins.chat.ui.ConversationActivity" />
+        <activity android:name=".ConversationsListActivity"></activity>
     </application>
 
 </manifest>

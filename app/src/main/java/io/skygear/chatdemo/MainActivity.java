@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import io.skygear.plugins.chat.Conversation;
 import io.skygear.skygear.Container;
 import io.skygear.skygear.Record;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Record currentUser = mSkygear.getAuth().getCurrentUser();
         if (currentUser != null) {
-            startActivity(new Intent(this, UsersListActivity.class));
+            startActivity(new Intent(this, ConversationsListActivity.class));
         }
     }
 }

@@ -16,4 +16,10 @@
     <string name="error_field_required">This field is required</string>
 
     <string name="new_conversation">New Conversation</string>
+
+    <!-- Users list-->
+    <string name="activity_users_list_title">Users List</string>
+
+    <!-- Conversations list-->
+    <string name="activity_conversations_list_title">Conversations List</string>
 </resources>

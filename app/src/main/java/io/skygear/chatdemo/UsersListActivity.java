@@ -97,6 +97,7 @@ public class UsersListActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
                 i.putExtra("CONVERSATION", conversation.toJson().toString());
                 startActivity(i);
+                finish();
             }
 
             @Override
