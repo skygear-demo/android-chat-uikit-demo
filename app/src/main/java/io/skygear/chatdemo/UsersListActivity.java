@@ -95,7 +95,7 @@ public class UsersListActivity extends AppCompatActivity {
             public void onSucc(@Nullable Conversation conversation) {
                 Log.i("MyApplication", "Created: " + conversation.getId());
                 Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
-                i.putExtra("CONVERSATION", conversation.toJson().toString());
+                i.putExtra(ConversationActivity.ConversationIntentKey, conversation.toJson().toString());
                 startActivity(i);
                 finish();
             }
