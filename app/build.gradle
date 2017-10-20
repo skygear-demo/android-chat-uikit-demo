@@ -27,7 +27,7 @@ dependencies {
     compile('io.skygear:skygear:+') {
         exclude group: 'com.android.support'
     }
-    compile('com.github.carmenlau:chat-sdk-android:a3c7a03') {
+    compile('com.github.skygeario:chat-sdk-android:5f428d2') {
         exclude group: 'com.android.support'
     }
     compile 'com.android.support:appcompat-v7:26.+'

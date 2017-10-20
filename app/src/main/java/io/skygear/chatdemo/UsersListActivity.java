@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import io.skygear.chatdemo.adapter.ChatUsersAdapter;
@@ -90,7 +92,10 @@ public class UsersListActivity extends AppCompatActivity {
             title = title + displayName;
         }
 
-        mChatContainer.createConversation(participantIds, title, null, null, new SaveCallback<Conversation>() {
+        Map<Conversation.OptionKey, Object> options = new HashMap<>();
+        options.put(Conversation.OptionKey.DISTINCT_BY_PARTICIPANTS, true);
+
+        mChatContainer.createConversation(participantIds, title, null, options, new SaveCallback<Conversation>() {
             @Override
             public void onSucc(@Nullable Conversation conversation) {
                 Log.i("MyApplication", "Created: " + conversation.getId());
@@ -103,6 +108,7 @@ public class UsersListActivity extends AppCompatActivity {
             @Override
             public void onFail(@Nullable String failReason) {
                 Log.w("MyApplication", "Failed to save: " + failReason);
+                Toast.makeText(getBaseContext(), failReason + " The conversation may exist already", Toast.LENGTH_SHORT).show();
             }
         });
     }
