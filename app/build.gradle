@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "io.skygear.chatdemo"
         minSdkVersion 16
@@ -27,7 +27,7 @@ dependencies {
     compile('io.skygear:skygear:+') {
         exclude group: 'com.android.support'
     }
-    compile('com.github.skygeario:chat-sdk-android:5f428d2') {
+    compile('io.skygear.plugins:chat:1.1.1') {
         exclude group: 'com.android.support'
     }
     compile 'com.android.support:appcompat-v7:26.+'
