@@ -24,12 +24,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile('io.skygear:skygear:+') {
-        exclude group: 'com.android.support'
-    }
-    compile('io.skygear.plugins:chat:1.1.1') {
-        exclude group: 'com.android.support'
-    }
+    compile 'io.skygear:skygear:+'
+    compile 'io.skygear.plugins:chat:1.1.1'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
