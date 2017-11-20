@@ -16,4 +16,7 @@ public class MyApplication extends SkygearApplication {
     public String getApiKey() {
         return "c0d796f60a9649d78ade26e65c460459";
     }
+
+    @Override
+    public String getGcmSenderId() { return "842462959904"; }
 }
