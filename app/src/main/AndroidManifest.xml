@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.skygear.chatdemo">
 
+    <permission
+        android:name="io.skygear.chatdemo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="io.skygear.chatdemo.permission.C2D_MESSAGE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -28,6 +33,34 @@
             android:name=".ConversationsListActivity"/>
         <activity
             android:name="io.skygear.plugins.chat.ui.ConversationActivity" />
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="io.skygear.chatdemo" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="io.skygear.skygear.gcm.ListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="io.skygear.skygear.gcm.InstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="io.skygear.skygear.gcm.RegistrationIntentService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>
