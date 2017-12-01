@@ -2,6 +2,7 @@ package io.skygear.chatdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,8 +24,10 @@ import io.skygear.plugins.chat.ChatUser;
 import io.skygear.plugins.chat.Conversation;
 import io.skygear.plugins.chat.GetCallback;
 import io.skygear.plugins.chat.SaveCallback;
+import io.skygear.plugins.chat.error.ConversationAlreadyExistsError;
 import io.skygear.plugins.chat.ui.ConversationActivity;
 import io.skygear.skygear.Container;
+import io.skygear.skygear.Error;
 import io.skygear.skygear.Record;
 
 public class UsersListActivity extends AppCompatActivity {
@@ -70,8 +73,8 @@ public class UsersListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFail(@Nullable String failReason) {
-                Toast.makeText(getBaseContext(), failReason, Toast.LENGTH_SHORT).show();
+            public void onFail(@NonNull Error error) {
+                Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -106,9 +109,31 @@ public class UsersListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFail(@Nullable String failReason) {
-                Log.w("MyApplication", "Failed to save: " + failReason);
-                Toast.makeText(getBaseContext(), failReason + " The conversation may exist already", Toast.LENGTH_SHORT).show();
+            public void onFail(@NonNull Error error) {
+                Log.w("MyApplication", "Failed to save: " + error.getMessage());
+                if (error instanceof ConversationAlreadyExistsError) {
+                    String conversationId = ((ConversationAlreadyExistsError) error).getConversationId();
+                    openConversationById(conversationId);
+                } else {
+                    Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void openConversationById(String conversationId) {
+        mChatContainer.getConversation(conversationId, new GetCallback<Conversation>() {
+            @Override
+            public void onSucc(@Nullable Conversation conversation) {
+                Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
+                i.putExtra(ConversationActivity.ConversationIntentKey, conversation.toJson().toString());
+                startActivity(i);
+                finish();
+            }
+
+            @Override
+            public void onFail(@NonNull Error error) {
+                Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

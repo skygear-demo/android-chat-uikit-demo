@@ -2,6 +2,7 @@ package io.skygear.chatdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import io.skygear.plugins.chat.ChatContainer;
 import io.skygear.plugins.chat.Conversation;
 import io.skygear.plugins.chat.GetCallback;
 import io.skygear.skygear.Container;
+import io.skygear.skygear.Error;
 
 /**
  * Created by carmenlau on 10/17/17.
@@ -53,8 +55,8 @@ public class ConversationsListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFail(@Nullable String failReason) {
-                Toast.makeText(getBaseContext(), failReason, Toast.LENGTH_SHORT).show();
+            public void onFail(@NonNull Error error) {
+                Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
