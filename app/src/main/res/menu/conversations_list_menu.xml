@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--<item android:id="@+id/log_out_menu"-->
-        <!--android:title="@string/log_out"-->
-        <!--app:showAsAction="ifRoom"/>-->
-    <!---->
+    <item android:id="@+id/log_out"
+        android:title="@string/log_out"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/users_list"
-        android:title="@string/activity_users_list_title"
+        android:title="@string/create"
         app:showAsAction="ifRoom"/>
 </menu>
