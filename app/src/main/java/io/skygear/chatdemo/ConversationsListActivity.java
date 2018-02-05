@@ -50,7 +50,7 @@ public class ConversationsListActivity extends AppCompatActivity {
         super.onResume();
         mChatContainer.getConversations(new GetCallback<List<Conversation>>(){
             @Override
-            public void onSucc(@Nullable List<Conversation> object) {
+            public void onSuccess(@Nullable List<Conversation> object) {
                 mAdapter.setConversationList(object);
             }
 

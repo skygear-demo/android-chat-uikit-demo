@@ -67,8 +67,9 @@ public class UsersListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mChatContainer.getChatUsers(new GetCallback<List<ChatUser>>(){
+
             @Override
-            public void onSucc(@Nullable List<ChatUser> object) {
+            public void onSuccess(@Nullable List<ChatUser> object) {
                 mAdapter.setChatUserList(object);
             }
 
@@ -100,7 +101,7 @@ public class UsersListActivity extends AppCompatActivity {
 
         mChatContainer.createConversation(participantIds, title, null, options, new SaveCallback<Conversation>() {
             @Override
-            public void onSucc(@Nullable Conversation conversation) {
+            public void onSuccess(@Nullable Conversation conversation) {
                 Log.i("MyApplication", "Created: " + conversation.getId());
                 Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
                 i.putExtra(ConversationActivity.ConversationIntentKey, conversation.toJson().toString());
@@ -124,7 +125,7 @@ public class UsersListActivity extends AppCompatActivity {
     private void openConversationById(String conversationId) {
         mChatContainer.getConversation(conversationId, new GetCallback<Conversation>() {
             @Override
-            public void onSucc(@Nullable Conversation conversation) {
+            public void onSuccess(@Nullable Conversation conversation) {
                 Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
                 i.putExtra(ConversationActivity.ConversationIntentKey, conversation.toJson().toString());
                 startActivity(i);

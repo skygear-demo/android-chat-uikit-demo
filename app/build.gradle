@@ -25,7 +25,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'io.skygear:skygear:+'
-    compile 'io.skygear.plugins:chat:1.1.3'
+    compile 'com.github.skygeario:chat-sdk-android:master-SNAPSHOT'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
