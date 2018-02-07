@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isUsernameValid(String username) {
-        return username.length() > 3;
+        return username.length() > 0;
     }
 
     private boolean isPasswordValid(String password) {
