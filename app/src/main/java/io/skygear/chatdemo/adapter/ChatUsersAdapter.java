@@ -57,6 +57,24 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         return new ViewHolder(layoutInflater.inflate(R.layout.item_chat_user, parent, false));
     }
 
+    private void refreshChatUserBackgroundColor(ChatUser chatUser, TextView textView) {
+        refreshChatUserBackgroundColor(chatUser, textView, null);
+    }
+
+    private void refreshChatUserBackgroundColor(ChatUser chatUser, View view, Boolean alreadySelected) {
+        alreadySelected = alreadySelected == null ?
+                            isChatUserSelected(chatUser) :
+                            alreadySelected;
+        int backgroundColor = alreadySelected ?
+                ContextCompat.getColor(context, R.color.gray_light) :
+                ContextCompat.getColor(context, R.color.transparent);
+        view.setBackgroundColor(backgroundColor);
+    }
+
+    private boolean isChatUserSelected(ChatUser chatUser) {
+        return mSelectedChatUsers.indexOf(chatUser) != -1;
+    }
+
     @Override
     public void onBindViewHolder(ChatUsersAdapter.ViewHolder holder, int position) {
         final ChatUser chatUser = mChatUserList.get(position);
@@ -66,20 +84,21 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         } else if (chatUser.getRecord().get("username") != null) {
             userLabelText = (String) chatUser.getRecord().get("username");
         }
-        holder.textView.setText(userLabelText);
 
+        holder.textView.setText(userLabelText);
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mSelectedChatUsers.indexOf(chatUser) == -1) {
-                    mSelectedChatUsers.add(chatUser);
-                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.gray_light));
-                } else {
+                boolean alreadySelected = isChatUserSelected(chatUser);
+                if (alreadySelected) {
                     mSelectedChatUsers.remove(chatUser);
-                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
+                } else {
+                    mSelectedChatUsers.add(chatUser);
                 }
+                refreshChatUserBackgroundColor(chatUser, view, !alreadySelected);
             }
         });
+        refreshChatUserBackgroundColor(chatUser, holder.textView);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
