@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,10 +30,14 @@ import io.skygear.plugins.chat.SaveCallback;
 import io.skygear.plugins.chat.error.ConversationAlreadyExistsError;
 import io.skygear.plugins.chat.ui.ConversationActivity;
 import io.skygear.skygear.Container;
+import io.skygear.skygear.Database;
 import io.skygear.skygear.Error;
+import io.skygear.skygear.Query;
 import io.skygear.skygear.Record;
+import io.skygear.skygear.RecordQueryResponseHandler;
 
 public class UsersListActivity extends AppCompatActivity {
+    final static String TAG = "UsersListActivity";
 
     Container mSkygear;
     ChatContainer mChatContainer;
@@ -67,14 +74,25 @@ public class UsersListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mChatContainer.getChatUsers(new GetCallback<List<ChatUser>>(){
+        Query query = new Query("user");
+        query.setLimit(999);
+        Database publicDB = mSkygear.getPublicDatabase();
+        publicDB.query(query, new RecordQueryResponseHandler() {
             @Override
-            public void onSucc(@Nullable List<ChatUser> object) {
-                mAdapter.setChatUserList(object);
+            public void onQuerySuccess(Record[] records) {
+                ArrayList<ChatUser> chatUsers = new ArrayList();
+                for (Record record: records) {
+                    try {
+                        chatUsers.add(ChatUser.fromJson(record.toJson()));
+                    } catch (JSONException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                }
+                mAdapter.setChatUserList(chatUsers);
             }
 
             @Override
-            public void onFail(@NonNull Error error) {
+            public void onQueryError(Error error) {
                 Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
