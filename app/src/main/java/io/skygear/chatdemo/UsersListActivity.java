@@ -37,6 +37,7 @@ public class UsersListActivity extends AppCompatActivity {
     ChatUsersAdapter mAdapter;
     RecyclerView mRecyclerView;
     Button mNewButton;
+    boolean mIsCreating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,9 @@ public class UsersListActivity extends AppCompatActivity {
     }
 
     private void createConversation(List<ChatUser> selectedUsers) {
+        if (mIsCreating) {
+            return ;
+        }
         Set<String> participantIds = new HashSet<String>();
         String title = "";
         for (ChatUser user: selectedUsers) {
@@ -97,10 +101,11 @@ public class UsersListActivity extends AppCompatActivity {
 
         Map<Conversation.OptionKey, Object> options = new HashMap<>();
         options.put(Conversation.OptionKey.DISTINCT_BY_PARTICIPANTS, true);
-
+        mIsCreating = true;
         mChatContainer.createConversation(participantIds, title, null, options, new SaveCallback<Conversation>() {
             @Override
             public void onSucc(@Nullable Conversation conversation) {
+                mIsCreating = false;
                 Log.i("MyApplication", "Created: " + conversation.getId());
                 Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
                 i.putExtra(ConversationActivity.ConversationIntentKey, conversation.toJson().toString());
@@ -110,6 +115,7 @@ public class UsersListActivity extends AppCompatActivity {
 
             @Override
             public void onFail(@NonNull Error error) {
+                mIsCreating = false;
                 Log.w("MyApplication", "Failed to save: " + error.getMessage());
                 if (error instanceof ConversationAlreadyExistsError) {
                     String conversationId = ((ConversationAlreadyExistsError) error).getConversationId();
