@@ -9,22 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-import io.skygear.chatdemo.LoginActivity;
 import io.skygear.chatdemo.R;
-import io.skygear.plugins.chat.ChatUser;
+import io.skygear.plugins.chat.Participant;
 
-/**
- * Created by carmenlau on 10/16/17.
- */
 
 public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.ViewHolder> {
 
-    List<ChatUser> mChatUserList = new ArrayList<ChatUser>();
+    List<Participant> mChatUserList = new ArrayList<>();
     String mCurrentUserId;
-    ArrayList<ChatUser> mSelectedChatUsers = new ArrayList<ChatUser>();
+    ArrayList<Participant> mSelectedChatUsers = new ArrayList<>();
     Context context;
 
     public ChatUsersAdapter(Context context, String mCurrentUserId) {
@@ -32,9 +29,9 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         this.mCurrentUserId = mCurrentUserId;
     }
 
-    public void setChatUserList(List<ChatUser> chatUserList) {
-        this.mChatUserList = new ArrayList<ChatUser>();
-        for (ChatUser user: chatUserList) {
+    public void setChatUserList(List<Participant> chatUserList) {
+        this.mChatUserList = new ArrayList<>();
+        for (Participant user: chatUserList) {
             if (user.getId() != mCurrentUserId) {
                 this.mChatUserList.add(user);
             }
@@ -42,7 +39,7 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         notifyDataSetChanged();
     }
 
-    public ArrayList<ChatUser> getSelectedChatUsers() {
+    public ArrayList<Participant> getSelectedChatUsers() {
         return mSelectedChatUsers;
     }
 
@@ -57,11 +54,11 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         return new ViewHolder(layoutInflater.inflate(R.layout.item_chat_user, parent, false));
     }
 
-    private void refreshChatUserBackgroundColor(ChatUser chatUser, TextView textView) {
+    private void refreshChatUserBackgroundColor(Participant chatUser, TextView textView) {
         refreshChatUserBackgroundColor(chatUser, textView, null);
     }
 
-    private void refreshChatUserBackgroundColor(ChatUser chatUser, View view, Boolean alreadySelected) {
+    private void refreshChatUserBackgroundColor(Participant chatUser, View view, Boolean alreadySelected) {
         alreadySelected = alreadySelected == null ?
                             isChatUserSelected(chatUser) :
                             alreadySelected;
@@ -71,13 +68,13 @@ public class ChatUsersAdapter extends RecyclerView.Adapter<ChatUsersAdapter.View
         view.setBackgroundColor(backgroundColor);
     }
 
-    private boolean isChatUserSelected(ChatUser chatUser) {
+    private boolean isChatUserSelected(Participant chatUser) {
         return mSelectedChatUsers.indexOf(chatUser) != -1;
     }
 
     @Override
     public void onBindViewHolder(ChatUsersAdapter.ViewHolder holder, int position) {
-        final ChatUser chatUser = mChatUserList.get(position);
+        final Participant chatUser = mChatUserList.get(position);
         String userLabelText = chatUser.getId();
         if (chatUser.getRecord().get("name") != null && chatUser.getRecord().get("name") instanceof String) {
             userLabelText = (String) chatUser.getRecord().get("name");

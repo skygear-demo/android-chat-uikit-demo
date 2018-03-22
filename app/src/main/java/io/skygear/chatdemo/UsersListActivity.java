@@ -23,9 +23,9 @@ import java.util.Set;
 
 import io.skygear.chatdemo.adapter.ChatUsersAdapter;
 import io.skygear.plugins.chat.ChatContainer;
-import io.skygear.plugins.chat.ChatUser;
 import io.skygear.plugins.chat.Conversation;
 import io.skygear.plugins.chat.GetCallback;
+import io.skygear.plugins.chat.Participant;
 import io.skygear.plugins.chat.SaveCallback;
 import io.skygear.plugins.chat.error.ConversationAlreadyExistsError;
 import io.skygear.plugins.chat.ui.ConversationActivity;
@@ -55,15 +55,15 @@ public class UsersListActivity extends AppCompatActivity {
         mChatContainer = ChatContainer.getInstance(mSkygear);
         mAdapter = new ChatUsersAdapter(this, mSkygear.getAuth().getCurrentUser().getId());
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.chat_users_rv);
+        mRecyclerView = findViewById(R.id.chat_users_rv);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mNewButton = (Button) findViewById(R.id.create_conversation_btn);
+        mNewButton = findViewById(R.id.create_conversation_btn);
         mNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<ChatUser> selectedUsers = mAdapter.getSelectedChatUsers();
+                List<Participant> selectedUsers = mAdapter.getSelectedChatUsers();
                 if (!selectedUsers.isEmpty()) {
                     createConversation(selectedUsers);
                 }
@@ -80,10 +80,10 @@ public class UsersListActivity extends AppCompatActivity {
         publicDB.query(query, new RecordQueryResponseHandler() {
             @Override
             public void onQuerySuccess(Record[] records) {
-                ArrayList<ChatUser> chatUsers = new ArrayList();
+                ArrayList<Participant> chatUsers = new ArrayList();
                 for (Record record: records) {
                     try {
-                        chatUsers.add(ChatUser.fromJson(record.toJson()));
+                        chatUsers.add(Participant.fromJson(record.toJson()));
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
                     }
@@ -98,13 +98,13 @@ public class UsersListActivity extends AppCompatActivity {
         });
     }
 
-    private void createConversation(List<ChatUser> selectedUsers) {
+    private void createConversation(List<Participant> selectedUsers) {
         if (mIsCreating) {
             return ;
         }
         Set<String> participantIds = new HashSet<String>();
         String title = "";
-        for (ChatUser user: selectedUsers) {
+        for (Participant user: selectedUsers) {
             participantIds.add(user.getId());
             String displayName = getUserDisplayName(user.getRecord());
             if (displayName != null) {
@@ -122,7 +122,7 @@ public class UsersListActivity extends AppCompatActivity {
         mIsCreating = true;
         mChatContainer.createConversation(participantIds, title, null, options, new SaveCallback<Conversation>() {
             @Override
-            public void onSucc(@Nullable Conversation conversation) {
+            public void onSuccess(@Nullable Conversation conversation) {
                 mIsCreating = false;
                 Log.i("MyApplication", "Created: " + conversation.getId());
                 Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
@@ -148,7 +148,7 @@ public class UsersListActivity extends AppCompatActivity {
     private void openConversationById(String conversationId) {
         mChatContainer.getConversation(conversationId, new GetCallback<Conversation>() {
             @Override
-            public void onSucc(@Nullable Conversation conversation) {
+            public void onSuccess(@Nullable Conversation conversation) {
                 Intent i = new Intent(getApplicationContext(), ConversationActivity.class);
                 i.putExtra(ConversationActivity.ConversationIntentKey, conversation.toJson().toString());
                 startActivity(i);
