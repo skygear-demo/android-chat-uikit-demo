@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import io.skygear.plugins.chat.Conversation;
 import io.skygear.skygear.Container;
 import io.skygear.skygear.Record;
 import io.skygear.skygear.gcm.RegistrationIntentService;
+
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppCenter.start(getApplication(),
+                "0ca640f5-3f5b-4243-a7b7-65bcfb482142",
+                Analytics.class,
+                Crashes.class);
+
         setContentView(R.layout.activity_main);
 
 //        mSignUpBtn = (Button) findViewById(R.id.sign_up_btn);
