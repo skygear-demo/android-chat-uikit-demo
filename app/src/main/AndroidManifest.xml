@@ -32,7 +32,8 @@
             android:label="@string/activity_conversations_list_title"
             android:name=".ConversationsListActivity"/>
         <activity
-            android:name="io.skygear.plugins.chat.ui.ConversationActivity" />
+            android:name="io.skygear.plugins.chat.ui.ConversationActivity"
+            android:parentActivityName=".MainActivity" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
