@@ -32,7 +32,8 @@
             android:label="@string/activity_conversations_list_title"
             android:name=".ConversationsListActivity"/>
         <activity
-            android:name="io.skygear.plugins.chat.ui.ConversationActivity" />
+            android:name="io.skygear.plugins.chat.ui.ConversationActivity"
+            android:parentActivityName=".MainActivity" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -44,17 +45,10 @@
             </intent-filter>
         </receiver>
         <service
-            android:name="io.skygear.skygear.gcm.ListenerService"
+            android:name="io.skygear.chatdemo.PushListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="io.skygear.skygear.gcm.InstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
