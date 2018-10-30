@@ -1,5 +1,6 @@
 package io.skygear.chatdemo;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -21,6 +23,8 @@ import io.skygear.plugins.chat.ui.ConversationActivity;
 public class PushListenerService extends com.google.android.gms.gcm.GcmListenerService {
     static final String TAG = "Push";
     private final Random random;
+    static final String channelId = "chat";
+    static final String channelName = "Chat";
 
     public PushListenerService() {
         this.random = new Random(new Date().getTime());
@@ -53,7 +57,16 @@ public class PushListenerService extends com.google.android.gms.gcm.GcmListenerS
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(this.random.nextInt(), notificationBuilder.build());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
+            if (channel == null) {
+                channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(channel);
+            }
+            notificationBuilder.setChannelId(channel.getId());
+        }
+
+        notificationManager.notify(channelId, this.random.nextInt(), notificationBuilder.build());
     }
 
     @Override
