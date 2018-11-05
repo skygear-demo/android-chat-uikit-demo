@@ -54,6 +54,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationsAdap
                 Context context = view.getContext();
                 Intent i = new Intent(context, ConversationActivity.class);
                 i.putExtra(ConversationActivity.ConversationIntentKey, c.toJson().toString());
+                i.putExtra(ConversationActivity.LayoutIntentKey, R.layout.custom_conversation_view);
                 context.startActivity(i);
             }
         });
