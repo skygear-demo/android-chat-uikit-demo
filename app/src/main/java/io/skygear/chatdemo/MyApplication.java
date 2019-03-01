@@ -9,14 +9,11 @@ import io.skygear.skygear.SkygearApplication;
 public class MyApplication extends SkygearApplication {
     @Override
     public String getSkygearEndpoint() {
-        return "https://chatdemoapp.skygeario.com/";
+        return "https://gears.skygeario.com/";
     }
 
     @Override
     public String getApiKey() {
-        return "c0d796f60a9649d78ade26e65c460459";
+        return "18855ba80c4a4058a8b527aabb2cb9c6";
     }
-
-    @Override
-    public String getGcmSenderId() { return "842462959904"; }
 }

@@ -1,3 +1,5 @@
+.idea/caches
+.idea/codeStyles
 *.iml
 .gradle
 /local.properties
