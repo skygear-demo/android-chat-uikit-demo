@@ -14,6 +14,6 @@ public class MyApplication extends SkygearApplication {
 
     @Override
     public String getApiKey() {
-        return "18855ba80c4a4058a8b527aabb2cb9c6";
+        return "c0d796f60a9649d78ade26e65c460459";
     }
 }
