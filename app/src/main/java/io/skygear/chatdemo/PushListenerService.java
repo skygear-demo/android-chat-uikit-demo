@@ -14,13 +14,16 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 
+import com.google.firebase.messaging.RemoteMessage;
+
 import java.util.Date;
 import java.util.Random;
 
 import io.skygear.plugins.chat.ui.ConversationActivity;
+import io.skygear.skygear.Container;
 
 
-public class PushListenerService extends com.google.android.gms.gcm.GcmListenerService {
+public class PushListenerService extends com.google.firebase.messaging.FirebaseMessagingService {
     static final String TAG = "Push";
     private final Random random;
     static final String channelId = "chat";
@@ -70,17 +73,24 @@ public class PushListenerService extends com.google.android.gms.gcm.GcmListenerS
     }
 
     @Override
-    public void onMessageReceived(String s, Bundle bundle) {
-        super.onMessageReceived(s, bundle);
-        final String title = bundle.getString("title");
-        final String body = bundle.getString("body");
+    public void onNewToken(String token) {
+        // send registration to skygear server
+        Container container = Container.defaultContainer(this.getApplicationContext());
+        container.getPush().registerDeviceToken(token);
+    }
+
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
+        final String title = remoteMessage.getData().get("title");
+        final String body = remoteMessage.getData().get("body");
 
         if (body == null) {
             Log.w(TAG, "Got null notification body");
             return;
         }
 
-        String conversationId = bundle.getString("conversation_id");
+        String conversationId = remoteMessage.getData().get("conversation_id");
 
         if (conversationId == null) {
             Log.w(TAG, "conversationId is not provided.");

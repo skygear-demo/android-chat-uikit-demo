@@ -9,7 +9,6 @@ import android.widget.Button;
 import io.skygear.plugins.chat.Conversation;
 import io.skygear.skygear.Container;
 import io.skygear.skygear.Record;
-import io.skygear.skygear.gcm.RegistrationIntentService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mSkygear = Container.defaultContainer(this);
-
-        if (mSkygear.getPush().getGcmSenderId() != null) {
-            Intent gcmTokenRegisterIntent = new Intent(this, RegistrationIntentService.class);
-            this.startService(gcmTokenRegisterIntent);
-        }
     }
 
     @Override
