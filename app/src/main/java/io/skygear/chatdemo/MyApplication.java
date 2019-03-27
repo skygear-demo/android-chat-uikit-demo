@@ -9,7 +9,7 @@ import io.skygear.skygear.SkygearApplication;
 public class MyApplication extends SkygearApplication {
     @Override
     public String getSkygearEndpoint() {
-        return "https://gears.skygeario.com/";
+        return "https://chatdemoapp.skygeario.com/";
     }
 
     @Override
